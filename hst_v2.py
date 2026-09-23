@@ -21,7 +21,7 @@ from sklearn.metrics import cohen_kappa_score
 import joblib
 
 # ==================================================
-# PATHS & PARAMETERS (edit these if needed)
+# PATHS & PARAMETERS 
 # ==================================================
 FCS_PATH = "/storage/mezya.sezen/mphasis/dataset/final_scaled/"
 LABEL_PATH = "/storage/mezya.sezen/mphasis/dataset/labels"
@@ -37,7 +37,7 @@ print(f"[DEBUG] OUTPUT_PATH: {OUTPUT_PATH}")
 print(f"[DEBUG] FCS files exist: {os.path.exists(FCS_PATH)}")
 print(f"[DEBUG] LABEL files exist: {os.path.exists(LABEL_PATH)}")
 
-# Markers/features to use
+# Markers/features
 features = ["SSC-A","Horizon V450-A","Horizon V500-A", "PerCP-A", "PC7-A"]
 
 # Aggregation thresholds
@@ -45,7 +45,7 @@ MIN_EVENTS_PER_SAMPLE = 5000
 SAMPLE_2K = 2000
 SAMPLE_5K = 5000
 
-# HST hyperparameters (you can tweak)
+# HST hyperparameters 
 HST_N_TREES = 50
 HST_DEPTH = 12
 
@@ -92,7 +92,7 @@ def from_fcs(path):
 
 
 # ==================================================
-# Make 5% blast dataset (balanced to 5% blasts)
+# Make 5% blast dataset 
 # ==================================================
 def make_5pct_dataset(data, output_path):
     print(f"\n[INFO] Creating 5% blast dataset: {output_path}")
@@ -122,7 +122,7 @@ def make_5pct_dataset(data, output_path):
     print(f"[INFO] Final blast prevalence = {df_5pct['Blast'].mean():.2%}\n")
 
 # ==================================================
-# Plotting helpers 
+# Plotting 
 # ==================================================
 def plot_confusion_matrix(y_true, y_pred, fold, output_path):
     cm = confusion_matrix(y_true, y_pred)
@@ -223,7 +223,7 @@ def plot_sample_performance(all_fold_results, output_path):
     plt.close()
 
 # ==================================================
-# Threshold finding 
+# Threshold 
 # ==================================================
 def find_optimal_threshold(y_true, y_scores, method='f1'):
     """Return (threshold, metrics dict)"""
@@ -271,7 +271,7 @@ def find_optimal_threshold(y_true, y_scores, method='f1'):
     return optimal_thresh, metrics
 
 # ==================================================
-# PURE NUMPY HST implementation (robust enough)
+# PURE NUMPY HST implementation 
 # ==================================================
 
 
@@ -439,7 +439,7 @@ class HSTWrapper:
         return self.model.decision_function(X)
 
 # ==================================================
-# STEP 1: CREATE AGGREGATED DATASET (2K + 5K)
+#  CREATE AGGREGATED DATASET (2K + 5K)
 # ==================================================
 pkl_2k = os.path.join(OUTPUT_PATH, "BLAST110_2K.pkl")
 pkl_5k = os.path.join(OUTPUT_PATH, "BLAST110_5K.pkl")
@@ -518,7 +518,7 @@ else:
     print("[INFO] Pickled aggregated data already exists. Skipping aggregation step.")
 
 # ==================================================
-# STEP 2: LOAD DOWN-SAMPLED 5K 5% DATASET
+# LOAD DOWN-SAMPLED 5K 5% DATASET
 # ==================================================
 pkl_downsampled = os.path.join(OUTPUT_PATH, "BLAST110_5K_5pct.pkl")
 if not os.path.exists(pkl_downsampled):
@@ -536,7 +536,7 @@ print(f"[INFO] Blast prevalence: {y.mean():.3%}")
 
 
 # ==================================================
-# STEP 3: NESTED CV (outer + inner) FOR HST
+# NESTED CV (outer + inner) FOR HST
 # ==================================================
 
 OUTER_SPLITS = 5           # match BLAST110 setup
@@ -662,7 +662,7 @@ for fold, (train_idx, test_idx) in enumerate(
     print(f"Train size: {X_train.shape[0]}, Test size: {X_test.shape[0]}")
     print(f"Train blast %: {y_train.mean():.2%}, Test blast %: {y_test.mean():.2%}")
 
-    # ================== INNER CV: HST hyperparams + threshold ==================
+    # ================== INNER CV: HST ==================
     print("\n[INNER CV] Tuning HST hyperparameters and threshold...")
     inner_start = time.time()
 
@@ -681,7 +681,7 @@ for fold, (train_idx, test_idx) in enumerate(
     print(f"[INNER CV] Best params: {best_params} with median tau={tau_fold:.6f}")
     print(f"[INNER CV] Time: {inner_elapsed:.1f}s")
 
-    # ================== OUTER TEST: unbiased evaluation ==================
+    # ================== OUTER TEST ==================
     print("\n[OUTER TEST] Evaluating on outer test fold...")
 
     # Refit best HST on ALL outer-train normals
@@ -738,7 +738,7 @@ for fold, (train_idx, test_idx) in enumerate(
     print(f"  Recall:    {rec:.4f}")
     print(f"  F1:        {f1:.4f}")
 
-    # ================== Per-sample evaluation (optional) ==================
+    # ================== Per-sample evaluation  ==================
     sample_ids = samples.iloc[test_idx].unique()
     model_results = []
     for sid in sample_ids:
@@ -799,7 +799,7 @@ for fold, (train_idx, test_idx) in enumerate(
     plot_anomaly_score_distribution(y_test, scores_test, fold, plots_dir)
     plot_score_by_class_boxplot(y_test, scores_test, fold, plots_dir)
 
-# ================== FINAL SUMMARY & SAVE ==================
+# ==================SUMMARY==================
 total_elapsed = time.time() - total_start_time
 
 outer_df = pd.DataFrame(all_outer_fold_results)
