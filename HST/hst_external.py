@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# hst_external_validation.py
 # External validation of the saved HST fold models on LAIP29 (diagnosis + follow-up samples)
 
 import os
@@ -17,10 +16,7 @@ from sklearn.metrics import (
     cohen_kappa_score, roc_curve, precision_recall_curve
 )
 
-# ==================================================
-# REQUIRED: exact same class definitions as in hst.py
-# joblib.load() needs these class blueprints present in this
-# script's __main__ namespace to reconstruct the saved objects.
+
 # ==================================================
 
 class HalfSpaceTree:
@@ -131,9 +127,9 @@ class HSTWrapper:
 
 
 # ==================================================
-# PATHS (edit these)
+# PATHS 
 # ==================================================
-HST_MODEL_DIR   = "/storage/mezya.sezen/mphasis/hst_27_2"          # where hst_foldX_model.pkl live
+HST_MODEL_DIR   = "/storage/mezya.sezen/mphasis/hst_27_2"          
 LAIP29_FCS_PATH = "/storage/mezya.sezen/mphasis/LAIP29/scaled/"
 LAIP29_LABEL_PATH = "/storage/mezya.sezen/mphasis/LAIP29/labels/"
 OUTPUT_PATH = os.path.join(HST_MODEL_DIR, "external_validation_LAIP29")
@@ -148,8 +144,7 @@ EXTERNAL_SAMPLES = {
     "follow_up": "LAIP29_9_FU_P3",
 }
 
-# ==================================================
-# Utility: read FCS -> pandas dataframe (same as hst.py)
+
 # ==================================================
 def from_fcs(path):
     from FlowCytometryTools import FCMeasurement
@@ -264,9 +259,7 @@ def evaluate_and_plot(y_true, y_scores, tau, sample_name, model_tag):
     return metrics
 
 
-# ==================================================
-# MAIN: score external samples with EVERY saved fold model,
-# then also report the ensemble-averaged score (mean across folds)
+
 # ==================================================
 fold_model_paths = sorted(glob.glob(os.path.join(HST_MODEL_DIR, "hst_fold*_model.pkl")))
 if not fold_model_paths:
@@ -296,7 +289,7 @@ for label, sample_key in EXTERNAL_SAMPLES.items():
         m = evaluate_and_plot(y_ext, scores, tau_fold, sample_key, f"HST_fold{fold_id}")
         all_results.append(m)
 
-    # Ensemble: mean score across folds, tau = median of fold taus (mirrors training convention)
+    
     mean_scores = np.mean(np.vstack(fold_scores), axis=0)
     median_tau = float(np.median(fold_taus))
     m_ensemble = evaluate_and_plot(y_ext, mean_scores, median_tau, sample_key, "HST_ensemble")
