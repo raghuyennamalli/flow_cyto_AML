@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# COMPLETE PUBLICATION-READY LOF IMPLEMENTATION
-# Matches: 5-fold nested CV, StratifiedGroupKFold, F1 threshold optimization, Cohen's kappa
+# 5-fold nested CV, StratifiedGroupKFold, F1 threshold optimization, Cohen's kappa
 
 import os
 import glob
@@ -179,7 +178,7 @@ def find_best_lof_params(X_train, y_train):
     
     return best_params
 
-#  MAIN NESTED CV LOOP (REPLACE your outer loop)
+#  MAIN NESTED CV LOOP 
 outer_cv = StratifiedGroupKFold(n_splits=OUTER_SPLITS, shuffle=True, random_state=42)
 
 for fold, (train_idx, test_idx) in enumerate(outer_cv.split(X, y, groups=groups)):
@@ -209,7 +208,7 @@ for fold, (train_idx, test_idx) in enumerate(outer_cv.split(X, y, groups=groups)
     test_scores = best_lof.decision_function(X_test)
     y_pred = test_scores < thresh
     
-    # Store metrics (your existing code)
+    # Store metrics 
     fold_metrics.append({
         'fold': fold,
         'accuracy': accuracy_score(y_test, y_pred),
@@ -246,7 +245,7 @@ best_contamination = float(df_fold_metrics['contamination'].mode()[0])  # ? ADD 
 print(f"\n Final model params: n_neighbors={best_n_neighbors}, contamination={best_contamination}")
 
 
-# ==================== FINAL MODEL ====================
+#  FINAL MODEL 
 print("\n Training final model...")
 # Get CV-tuned hyperparameters
 best_n_neighbors = int(df_fold_metrics['n_neighbors'].mode()[0])
@@ -276,7 +275,7 @@ kappa_full = cohen_kappa_score(y, y_pred_full)
 auroc_full = roc_auc_score(y, full_scores)
 auprc_full = average_precision_score(y, full_scores)
 
-# ==================== SAVE MODEL ====================
+#  SAVE MODEL 
 model_path = os.path.join(OUTPUT_FOLDER, "lof_final_model.joblib")
 threshold_path = os.path.join(OUTPUT_FOLDER, "lof_threshold.npy")
 metadata_path = os.path.join(OUTPUT_FOLDER, "lof_metadata.pkl")
@@ -328,7 +327,7 @@ with open(f"{OUTPUT_FOLDER}/lof_final_metrics.txt", "w") as f:
 print(f" COMPLETE! Results saved to {OUTPUT_FOLDER}")
 print(f"?  Total runtime: {(time.time()-start_time)/60:.1f} minutes")
 
-# ==================== PLOTS ====================
+# PLOTS 
 print(" Generating plots...")
 
 # 1. PER-FOLD METRICS
