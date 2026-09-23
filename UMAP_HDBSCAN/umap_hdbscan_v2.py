@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # =============================================================
-# UMAP + HDBSCAN clustering workflow (HPC optimized) - 5 FEATURES
+# UMAP + HDBSCAN clustering workflow 
 # =============================================================
 
 import os
@@ -28,16 +28,14 @@ FEATURES = ["SSC-A", "CD45 KO", "CD34 Cy55", "CD117", "CD13 BV421"]
 
 OUTPUT_DIR = "/storage/mezya.sezen/mphasis/umap_hdbscan/5feat_results/"
 
-# =============================================================
-# Utility: timestamp
+
 # =============================================================
 
 def now():
     return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
-# =============================================================
-# Step 1: Load all FCS files
+Load all FCS files
 # =============================================================
 
 def load_all_fcs(folder_path):
@@ -64,8 +62,7 @@ def load_all_fcs(folder_path):
     return df
 
 
-# =============================================================
-# Step 2: Sample each file to fixed number of events
+
 # =============================================================
 
 def sample_events_per_file(df, sample_col="sample_id", n_events=5000):
@@ -133,7 +130,7 @@ def main():
         df_val = df.iloc[val_idx].copy()
 
         # -----------------------------------------------------
-        # Step 5: UMAP
+        # UMAP
         # -----------------------------------------------------
         print(f"[{now()}] Running UMAP...")
         umap_model = umap.UMAP(
@@ -148,7 +145,7 @@ def main():
         X_umap_val = umap_model.transform(X_val)
 
         # -----------------------------------------------------
-        # Step 6: HDBSCAN
+        #  HDBSCAN
         # -----------------------------------------------------
         print(f"[{now()}] Running HDBSCAN...")
         clusterer = hdbscan.HDBSCAN(
@@ -178,7 +175,7 @@ def main():
             pickle.dump(clusterer, f)
 
         # -----------------------------------------------------
-        # Plot (safe on HPC)
+        # Plot
         # -----------------------------------------------------
         plt.figure(figsize=(8, 6))
         plt.scatter(X_umap_train[:, 0], X_umap_train[:, 1], c=train_labels, s=3)
