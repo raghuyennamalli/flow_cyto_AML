@@ -19,7 +19,7 @@ from sklearn.metrics import (
 )
 
 # ==================================================
-# PATHS (edit these)
+# PATHS 
 # ==================================================
 LOF_OUTPUT_FOLDER = "/storage/mezya.sezen/mphasis/lof_results/lof_21_2_26"
 LAIP29_FCS_PATH = "/storage/mezya.sezen/mphasis/LAIP29/scaled/"
@@ -27,7 +27,7 @@ LAIP29_LABEL_PATH = "/storage/mezya.sezen/mphasis/LAIP29/labels/"
 OUTPUT_PATH = os.path.join(LOF_OUTPUT_FOLDER, "external_validation_LAIP29")
 os.makedirs(OUTPUT_PATH, exist_ok=True)
 
-# Must match training feature order exactly (note underscores, matching lof.py)
+
 FEATURES = ["SSC-A", "Horizon_V450-A", "Horizon_V500-A", "PerCP-A", "PC7-A"]
 
 EXTERNAL_SAMPLES = {
@@ -35,8 +35,7 @@ EXTERNAL_SAMPLES = {
     "follow_up": "LAIP29_9_FU_P3",
 }
 
-# ==================================================
-# Utility: read FCS -> pandas dataframe (same as lof.py's load_fcs_stable)
+
 # ==================================================
 def load_fcs_stable(path):
     sample = FCMeasurement(ID=os.path.basename(path), datafile=path)
