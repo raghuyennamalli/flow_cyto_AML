@@ -3,7 +3,7 @@ Comparison of anomaly detection and supervised learning for acute myeloid leukem
 Mezya Sezen1,*, Pavinap Priyaa1,*, Krishnapriya Vinod1, Atul Thatai2, 
 Nitin Dayal2, Ragothaman M. Yennamalli3$, Rama S. Akondy1$.
 
-* These authors contributed equally to this manuscript.
+,* These authors contributed equally to this manuscript.
 $ Corresponding Authors
 
 Table of Contents
