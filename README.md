@@ -1,8 +1,8 @@
 # Comparison of anomaly detection and supervised learning for acute myeloid leukemia blast identification: A proof-of-concept study
 
-Mezya Sezen1,*, Pavinap Priyaa1,*, Krishnapriya Vinod1, Atul Thatai2, Nitin Dayal2, Ragothaman M. Yennamalli3$, Rama S. Akondy1$.
+Mezya Sezen 1, Pavinap Priyaa 1, Krishnapriya Vinod 1, Atul Thatai 2, Nitin Dayal 2, Ragothaman M. Yennamalli 3 $, Rama S. Akondy 1 $.
 
-,* These authors contributed equally to this manuscript.
+Mezya Sezen and Pavinap Priyaa contributed equally.
 $ Corresponding Authors
 
 ## Table of Contents
