@@ -21,9 +21,10 @@ This repository accompanies a proof-of-concept study comparing anomaly detection
  - UMAP_HDBSCAN/— Unsupervised dimensionality reduction + clustering 
 
 ## Materials and Methods
-Data source: BLAST110 and LAIP29 cohorts (Mocking et al., 2024), Zenodo (https://zenodo.org/records/11046402). BLAST110: 110 bone marrow samples (20 healthy, 30 diagnosis, 60 follow-up). LAIP29: 48 samples (28 diagnosis, 20 follow-up). Each sample measured across 4 antibody panels (P1–P4); 5 backbone markers common to all panels. 
-Feature set: SSC-A, CD34, CD45, CD117, CD13 (5 backbone markers)
-Model validation: 5-fold nested cross-validation with StratifiedGroupKFold, grouped by patient ID to prevent leakage. Inner loop: hyperparameter tuning. Outer loop: unbiased performance estimation. External validation on two independent LAIP29 samples (~41% and ~1% blast prevalence). 
+Data source: BLAST110 and LAIP29 cohorts (Mocking et al., 2024), Zenodo (https://zenodo.org/records/11046402). BLAST110: 110 samples (20 healthy, 30 diagnosis, 60 follow-up — the follow-up samples span MRD-low, -intermediate and -high categories, 
+~20 each). LAIP29: 48 samples (28 diagnosis, 20 follow-up). Not all expected files are present. BLAST110 has 403 of the expected 440 FCS files (110 patients × 4 panels); LAIP29 has 83 of the expected 160 (some patient/panel combinations are missing from the source data). Each sample measured across 4 antibody panels (P1–P4); 5 markers common to all panels. 
+Feature set: SSC-A, CD34, CD45, CD117, CD13 
+Model validation: 5-fold nested cross-validation, grouped by patient ID to prevent leakage. Inner loop: hyperparameter tuning. Outer loop: unbiased performance estimation. External validation on two independent LAIP29 samples (~41% and ~1% blast prevalence). 
 
 Results
 
