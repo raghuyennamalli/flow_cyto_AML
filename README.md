@@ -26,9 +26,36 @@ Data source: BLAST110 and LAIP29 cohorts (Mocking et al., 2024), Zenodo (https:/
 Feature set: SSC-A, CD34, CD45, CD117, CD13 
 Model validation: 5-fold nested cross-validation, grouped by patient ID to prevent leakage. Inner loop: hyperparameter tuning. Outer loop: unbiased performance estimation. External validation on two independent LAIP29 samples (~41% and ~1% blast prevalence). 
 
-Results
+## Dependencies
 
-----------
+### Python
+
+- numpy
+- pandas
+- scikit-learn
+- FlowCytometryTools
+- matplotlib
+- seaborn
+- scipy
+- umap-learn
+- joblib
+- fcsparser
+- hdbscan
+- shap
+
+### R
+
+- R version 4.4.0
+- BiocManager
+- flowCore
+- PeacoQC
+- flowDensity
+- flowViz
+- flowWorkspace
+- ggplot2
+- gridExtra
+- tidyr
+- dplyr
 
 ## Contact
 Dr. Rama S. Akondy, Department of Biology, Trivedi School of Biosciences, Ashoka University, Sonipat, India 131029. Email: rama.akondy@ashoka.edu.in
